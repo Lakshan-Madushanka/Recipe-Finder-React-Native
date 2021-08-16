@@ -1,21 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StatusBar, View, StyleSheet } from "react-native";
+import { enableScreens } from "react-native-screens";
+import { useFonts } from "expo-font";
+import { Provider } from "react-redux";
+
+import MealsNavigator from "./navigation/MealsNavigation";
+import Colors from "./constants/Colors";
+import store from "./store/store";
+
+enableScreens();
 
 export default function App() {
+  const [isLoaded] = useFonts({
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+  });
+
+  if (!isLoaded) {
+    return null;
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <View style={styles.screen}>
+        <StatusBar backgroundColor={Colors.primaryColor} />
+        <MealsNavigator />
+      </View>
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
